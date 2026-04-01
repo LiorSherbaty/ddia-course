@@ -3,6 +3,7 @@ import {
   DAYS, MEMORY_MAP, INTERVIEW_QUESTIONS, STRONGER_ANSWERS,
   ONE_DAY_TOPICS, MEGA_PROMPT
 } from './data/course'
+import { LAB_GUIDES } from './data/labGuides'
 
 // ─── localStorage ───────────────────────────────────────────────────────────
 const STORAGE_KEY = 'ddia_progress_v1'
@@ -291,6 +292,51 @@ function LabChecklist({ lab, dayId, progress, setProgress }) {
   )
 }
 
+// ─── LabGuide ───────────────────────────────────────────────────────────────
+function LabGuide({ dayId }) {
+  const guide = LAB_GUIDES[dayId]
+  const [openTask, setOpenTask] = useState(null)
+
+  if (!guide) return null
+
+  return (
+    <div className="mt-5 border-t border-gray-100 pt-5">
+      <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">Step-by-Step Guide</p>
+      <div className="space-y-2">
+        {guide.map((item, ti) => {
+          const isOpen = openTask === ti
+          return (
+            <div key={ti} className="border border-gray-200/80 rounded-lg overflow-hidden">
+              <button
+                onClick={() => setOpenTask(isOpen ? null : ti)}
+                className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-gray-50/80 transition-colors"
+              >
+                <span className="w-5 h-5 rounded-full bg-teal-50 text-teal-600 text-xs font-semibold flex items-center justify-center flex-shrink-0">{ti + 1}</span>
+                <span className="text-sm text-gray-700 font-medium flex-1">{item.task}</span>
+                <ChevronIcon open={isOpen} />
+              </button>
+              {isOpen && (
+                <div className="px-4 pb-4 pt-1 border-t border-gray-100 bg-gray-50/30">
+                  {item.steps.map((step, si) => (
+                    <div key={si} className="mt-3 first:mt-1">
+                      <div className="flex items-center gap-2 mb-1.5">
+                        <span className="text-xs font-mono font-semibold text-teal-600 bg-teal-50 px-1.5 py-0.5 rounded">{ti + 1}.{si + 1}</span>
+                        <h5 className="text-sm font-semibold text-gray-800">{step.title}</h5>
+                      </div>
+                      {step.text && <p className="text-sm text-gray-600 leading-relaxed mb-2 whitespace-pre-line">{step.text}</p>}
+                      {step.code && <CodeBlock lang={step.lang || 'text'} code={step.code} />}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
 // ─── ClaudePrompts ───────────────────────────────────────────────────────────
 function ClaudePrompts({ prompts }) {
   const [copied, setCopied] = useState(null)
@@ -413,6 +459,7 @@ function DayView({ day, progress, setProgress }) {
       <Card>
         <SectionLabel>Mini Lab</SectionLabel>
         <LabChecklist lab={day.lab} dayId={day.id} progress={progress} setProgress={setProgress} />
+        <LabGuide key={day.id} dayId={day.id} />
       </Card>
 
       {/* Speak Timer */}
@@ -609,7 +656,7 @@ function Sidebar({ currentView, setView, progress, mobileOpen, setMobileOpen }) 
         </div>
         <div className="min-w-0">
           <p className={`text-sm font-medium truncate ${active ? 'text-white' : ''}`}>{item.label}</p>
-          <p className={`text-xs truncate ${active ? 'text-slate-400' : 'text-slate-500'}`}>{item.sub}</p>
+          <p className={`text-xs ${active ? 'text-slate-400' : 'text-slate-500'}`}>{item.sub}</p>
         </div>
       </button>
     )
