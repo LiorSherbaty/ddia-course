@@ -43,6 +43,7 @@ npm run preview
 ## Project Structure
 
 ```
+context.md              Living project context and maintenance notes
 index.html              Entry HTML (Tailwind config, fonts)
 src/
   main.jsx              React entry point
