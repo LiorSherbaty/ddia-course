@@ -5,7 +5,13 @@
       "Bash(npx vite:*)",
       "Bash(grep -n \"^export\\\\|^  {$\\\\|    id:\" /c/Users/LiorS/Desktop/Projects/ddia-course/src/data/course.js)",
       "Bash(grep id: [0-9],$:*)",
-      "mcp__playwright__browser_resize"
+      "mcp__playwright__browser_resize",
+      "Bash(npm install:*)",
+      "Bash(node -e \"const fs=require\\('fs'\\);const p='src/App.jsx';const t=fs.readFileSync\\(p,'utf8'\\);const lines=t.split\\(/\\\\r?\\\\n/\\);const out=[...lines.slice\\(0,22\\),...lines.slice\\(121\\)].join\\('\\\\n'\\);fs.writeFileSync\\(p,out\\);console.log\\('trimmed to',out.split\\(/\\\\n/\\).length,'lines'\\)\")",
+      "Bash(node -e \"const fs=require\\('fs'\\);const p='src/App.jsx';const t=fs.readFileSync\\(p,'utf8'\\);const lines=t.split\\(/\\\\r?\\\\n/\\);const out=[...lines.slice\\(0,23\\),...lines.slice\\(208\\)].join\\('\\\\n'\\);fs.writeFileSync\\(p,out\\);console.log\\('trimmed to',out.split\\(/\\\\n/\\).length,'lines'\\)\")",
+      "Bash(node -e ':*)",
+      "Bash(find src:*)",
+      "Bash(node --input-type=module -e ':*)"
     ]
   }
 }
